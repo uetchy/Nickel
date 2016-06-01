@@ -1,12 +1,16 @@
 var {remote} = require('electron');
 var win = remote.getCurrentWindow();
-var playerElement = document.getElementById('player');
+var player = document.getElementById('player');
 
-playerElement.addEventListener('loadedmetadata', function() {
-  var {videoWidth, videoHeight} = this;
+player.addEventListener('loadedmetadata', function() {
+  const {videoWidth, videoHeight} = this;
   win.setSize(videoWidth, videoHeight);
   win.setAspectRatio(videoWidth/videoHeight);
   this.play();
 });
 
-playerElement.src = '../test2.mp4';
+player.addEventListener('seeked', function(e) {
+  console.log(e);
+})
+
+player.src = '../test.mp4';
