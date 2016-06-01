@@ -3,10 +3,9 @@ var win = remote.getCurrentWindow();
 var playerElement = document.getElementById('player');
 
 playerElement.addEventListener('loadedmetadata', function() {
-  var width = this.videoWidth;
-  var height = this.videoHeight;
-  win.setSize(width, height);
-  win.setAspectRatio(width/height);
+  var {videoWidth, videoHeight} = this;
+  win.setSize(videoWidth, videoHeight);
+  win.setAspectRatio(videoWidth/videoHeight);
   this.play();
 });
 
