@@ -8,9 +8,14 @@ const volumeBar = document.getElementById('volume-bar');
 var isSeeking = false;
 
 player.addEventListener('loadedmetadata', function() {
-  const {videoWidth, videoHeight, duration, initialTime} = this;
+  const {
+    videoWidth,
+    videoHeight,
+    duration,
+    initialTime
+  } = this;
   win.setSize(videoWidth, videoHeight);
-  win.setAspectRatio(videoWidth/videoHeight);
+  win.setAspectRatio(videoWidth / videoHeight);
 
   playback.min = playback.value = initialTime || 0;
   playback.max = duration;
@@ -19,7 +24,7 @@ player.addEventListener('loadedmetadata', function() {
   this.play();
 });
 
-player.addEventListener("timeupdate", function() {
+player.addEventListener('timeupdate', function() {
   if (!isSeeking) playback.value = player.currentTime;
 });
 
@@ -31,11 +36,11 @@ playButton.addEventListener('click', function() {
   }
 });
 
-playback.addEventListener("mousedown", function() {
+playback.addEventListener('mousedown', function() {
   isSeeking = true;
 });
 
-playback.addEventListener("mouseup", function(e) {
+playback.addEventListener('mouseup', function(e) {
   isSeeking = false;
 });
 
@@ -43,7 +48,7 @@ playback.addEventListener('change', function() {
   player.currentTime = this.valueAsNumber;
 })
 
-volumeBar.addEventListener("change", function() {
+volumeBar.addEventListener('input', function() {
   player.volume = volumeBar.valueAsNumber;
 });
 
