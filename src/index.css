@@ -5,14 +5,19 @@ body {
   -webkit-app-region: drag;
 }
 
+.hover {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+body:hover > .hover {
+  opacity: 1;
+}
+
 #titlebar {
   width: 100%;
   height: 24px;
   position: absolute;
   z-index: 9999;
-}
-
-body:hover > #titlebar {
   background-color: #000;
 }
 
