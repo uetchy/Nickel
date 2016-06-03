@@ -68,17 +68,17 @@ player.src = path.join('..', video_path);
 // Process comments
 comments_path = path.join(path.dirname(video_path), `${path.basename(video_path, path.extname(video_path))}.xml`);
 xml = fs.readFileSync(comments_path, "utf-8");
-parseString(xml, function (err, result) {
+parseString(xml, function(err, result) {
   comments = result['packet']['chat']
-    .map(function(comment){
+    .map(function(comment) {
       body = comment['_'];
       metadata = comment['$'];
       vpos = parseInt(metadata['vpos']);
       return [vpos, body];
     })
-    .sort(function(a,b){
-      if( a[0] < b[0] ) return -1;
-      if( a[0] > b[0] ) return 1;
+    .sort(function(a, b) {
+      if (a[0] < b[0]) return -1;
+      if (a[0] > b[0]) return 1;
       return 0;
     });
   console.log(comments);
@@ -86,7 +86,7 @@ parseString(xml, function (err, result) {
 
   player.addEventListener('timeupdate', function(e) {
     if (!isSeeking) playback.value = player.currentTime;
-    commentIndex = Math.round(player.currentTime/dur * len);
-    console.log(comments[commentIndex][0], player.currentTime*100);
+    commentIndex = Math.round(player.currentTime / dur * len);
+    console.log(comments[commentIndex][0], player.currentTime * 100);
   });
 });
