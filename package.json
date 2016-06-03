@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron . 'test2.mp4'"
   },
-  "dependencies": {},
+  "dependencies": {
+    "xml2js": "^0.4.16"
+  },
   "devDependencies": {
     "electron-packager": "^7.0.3",
     "electron-prebuilt": "^1.2.0",
