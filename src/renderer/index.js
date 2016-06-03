@@ -66,7 +66,7 @@ video_path = remote.process.argv[2];
 player.src = path.join('..', video_path);
 
 // Process comments
-comments_path = `${path.basename(video_path, path.extname(video_path))}.xml`;
+comments_path = path.join(path.dirname(video_path), `${path.basename(video_path, path.extname(video_path))}.xml`);
 xml = fs.readFileSync(comments_path, "utf-8");
 parseString(xml, function (err, result) {
   comments = result['packet']['chat']
