@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron . 'samples/test2.mp4'"
+    "start": "electron . 'samples/test2.mp4'",
+    "release": "electron-packager . Nickel --platform=darwin --arch=x64 --icon=app.icns"
   },
   "dependencies": {
     "xml2js": "^0.4.16"
   },
   "devDependencies": {
     "electron-packager": "^7.0.3",
-    "electron-prebuilt": "^1.2.0",
-    "mocha": "^2.1.0"
+    "electron-prebuilt": "^1.2.0"
   }
 }
