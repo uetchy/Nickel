@@ -20,3 +20,11 @@ body:hover > #titlebar {
   width: 100%;
   height: auto;
 }
+
+#controls {
+  width: 400px;
+  height: 100px;
+  position: absolute;
+  z-index: 9999;
+  background-color: #000;
+}

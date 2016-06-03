@@ -4,13 +4,17 @@
 <head>
   <meta charset="UTF-8" />
   <link href="index.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <title>Nickel</title>
 </head>
 
 <body>
   <div id="titlebar"></div>
-  <video id="player" controls />
-  <div id="control">
+  <video id="player" controls></video>
+  <div id="controls">
+    <button id="play" disabled>▶️</button>
+    <input type="range" id="playback" value="0">
+    <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
   </div>
   <script>
     require('./renderer/index.js')
