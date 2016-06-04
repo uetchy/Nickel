@@ -1,6 +1,5 @@
 const electron = require('electron');
-const {app} = electron;
-const {BrowserWindow} = electron;
+const {app, BrowserWindow} = electron;
 
 let win;
 

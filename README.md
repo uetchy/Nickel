@@ -1,3 +1,3 @@
-# Filmcritic
+# Nickel
 
-The simplest nicovideo player built with node-webkit.
+QuickTime flavored nicovideo player built on Electron.

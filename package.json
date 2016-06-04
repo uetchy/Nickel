@@ -4,7 +4,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron . 'samples/test2.mp4'",
-    "release": "electron-packager . Nickel --platform=darwin --arch=x64 --icon=app.icns"
+    "release": "electron-packager . $npm_package_name --platform=darwin --arch=x64 --icon=app.icns"
   },
   "dependencies": {
     "xml2js": "^0.4.16"
