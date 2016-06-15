@@ -1,3 +1,5 @@
 /node_modules
 /survey
 /samples
+*.mp4
+*.mp4.json
