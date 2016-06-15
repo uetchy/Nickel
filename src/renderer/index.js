@@ -38,13 +38,13 @@ player.addEventListener('loadedmetadata', function() {
   this.play();
 });
 
-player.addEventListener('play', function(e){
+player.addEventListener('play', function(e) {
   console.log("play");
   renderComments();
-  config.commentRendererTimer = setInterval(renderComments, VPOS_FRAME_SIZE*10/2);
+  config.commentRendererTimer = setInterval(renderComments, VPOS_FRAME_SIZE * 10 / 2);
 })
 
-player.addEventListener('seeked', function(e){
+player.addEventListener('seeked', function(e) {
   console.log("seeked");
   config.renderedCommentsIndex = [];
   renderComments();
@@ -54,7 +54,7 @@ player.addEventListener('timeupdate', function(e) {
   if (!config.isSeeking) playback.value = player.currentTime;
 });
 
-player.addEventListener('ended', function(e){
+player.addEventListener('ended', function(e) {
   console.log("ended");
   clearInterval(config.commentRendererTimer);
 });
@@ -80,7 +80,7 @@ playback.addEventListener('change', function() {
 })
 
 volumeControl.addEventListener('input', function() {
-  player.volume = volumeControl.valueAsNumber;
+  player.volume = this.valueAsNumber;
 });
 
 video_path = remote.process.argv[2];
@@ -88,11 +88,12 @@ video_path = remote.process.argv[2];
 // Collect comments within frame range
 function frameCollect(start, frameSize) {
   let end = start + frameSize;
-  return config.vposIndex
-    .filter(function(index){
+  return config
+    .vposIndex
+    .filter(index => {
       return (index[0] >= start && index[0] <= end);
     })
-    .map(function(index){
+    .map(index => {
       return index[1];
     });
 }
@@ -107,14 +108,14 @@ function renderComments(){
   console.log("renderedCount:", config.renderedCommentsIndex.length);
 
   // 描画していないコメントのみを対象にアニメーションを予約
-  commentCandidatesIndex.forEach(function(candidateIndex){
+  commentCandidatesIndex.forEach(function(candidateIndex) {
     if (config.renderedCommentsIndex.indexOf(candidateIndex) > -1) return;
     let comment = comments[candidateIndex];
     let remaining = comment.vpos - currentVpos;
     // setTimeout(function(){
     //   console.log(comment.vpos, comment.body);
     // }, remaining*10);
-    console.log("RENDER", remaining*10, comment.body);
+    console.log("RENDER", remaining * 10, comment.body);
     config.renderedCommentsIndex.push(candidateIndex);
   });
 }
@@ -123,16 +124,18 @@ function renderComments(){
 var packet = require(`${video_path}.json`);
 
 // Sort comments by vpos
-config.comments = packet.comments
-  .sort(function(a, b) {
+config.comments = packet
+  .comments
+  .sort((a, b) => {
     if (a.vpos < b.vpos) return -1;
     if (a.vpos > b.vpos) return 1;
     return 0;
   });
 
 // Create vpos, array_index T index
-config.vposIndex = config.comments
-  .map(function(comment, index){
+config.vposIndex = config
+  .comments
+  .map((comment, index) => {
     return [comment.vpos, index];
   });
 
