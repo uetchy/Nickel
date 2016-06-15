@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron . 'samples/test2.mp4'",
+    "start": "electron . '/Users/oame/Repos/src/github.com/uetchy/Nickel/ゆっくりできないパラノイア04　■おまけ [sm23418443].mp4'",
     "release": "electron-packager . $npm_package_name --platform=darwin --arch=x64 --icon=app.icns"
   },
   "dependencies": {

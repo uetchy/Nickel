@@ -9,8 +9,15 @@ const playback = document.getElementById('playback');
 const volumeControl = document.getElementById('volume-bar');
 const commentsContainer = document.getElementById('comments');
 
-var isSeeking = false;
-var len, dur;
+const VPOS_FRAME_SIZE = 1000;
+
+var config = {
+  isSeeking: false,
+  commentRendererTimer: null,
+  renderedCommentsIndex: [],
+  comments: [],
+  vposIndex: []
+};
 
 player.addEventListener('loadedmetadata', function() {
   const {
@@ -25,16 +32,32 @@ player.addEventListener('loadedmetadata', function() {
   playback.min = playback.value = initialTime || 0;
   playback.max = duration;
 
-  console.log("duration:", duration);
-  dur = duration;
+  console.log("video loaded:", duration);
 
   playButton.disabled = false;
   this.play();
 });
 
-// player.addEventListener('timeupdate', function(e) {
-//   if (!isSeeking) playback.value = player.currentTime;
-// });
+player.addEventListener('play', function(e){
+  console.log("play");
+  renderComments();
+  config.commentRendererTimer = setInterval(renderComments, VPOS_FRAME_SIZE*10/2);
+})
+
+player.addEventListener('seeked', function(e){
+  console.log("seeked");
+  config.renderedCommentsIndex = [];
+  renderComments();
+});
+
+player.addEventListener('timeupdate', function(e) {
+  if (!config.isSeeking) playback.value = player.currentTime;
+});
+
+player.addEventListener('ended', function(e){
+  console.log("ended");
+  clearInterval(config.commentRendererTimer);
+});
 
 playButton.addEventListener('click', function() {
   if (player.paused) {
@@ -45,11 +68,11 @@ playButton.addEventListener('click', function() {
 });
 
 playback.addEventListener('mousedown', function() {
-  isSeeking = true;
+  config.isSeeking = true;
 });
 
 playback.addEventListener('mouseup', function(e) {
-  isSeeking = false;
+  config.isSeeking = false;
 });
 
 playback.addEventListener('change', function() {
@@ -62,31 +85,58 @@ volumeControl.addEventListener('input', function() {
 
 video_path = remote.process.argv[2];
 
-// Start loading video
-player.src = path.join('..', video_path);
-
-// Process comments
-comments_path = path.join(path.dirname(video_path), `${path.basename(video_path, path.extname(video_path))}.xml`);
-xml = fs.readFileSync(comments_path, "utf-8");
-parseString(xml, function(err, result) {
-  comments = result['packet']['chat']
-    .map(function(comment) {
-      body = comment['_'];
-      metadata = comment['$'];
-      vpos = parseInt(metadata['vpos']);
-      return [vpos, body];
+// Collect comments within frame range
+function frameCollect(start, frameSize) {
+  let end = start + frameSize;
+  return config.vposIndex
+    .filter(function(index){
+      return (index[0] >= start && index[0] <= end);
     })
-    .sort(function(a, b) {
-      if (a[0] < b[0]) return -1;
-      if (a[0] > b[0]) return 1;
-      return 0;
+    .map(function(index){
+      return index[1];
     });
-  console.log(comments);
-  len = comments.length;
+}
 
-  player.addEventListener('timeupdate', function(e) {
-    if (!isSeeking) playback.value = player.currentTime;
-    commentIndex = Math.round(player.currentTime / dur * len);
-    console.log(comments[commentIndex][0], player.currentTime * 100);
+// Render comments
+function renderComments(){
+  // インターバルごとにフレーム窓の対象となるコメントを算出
+  const {comments} = config;
+  const currentVpos = player.currentTime * 100;
+  const commentCandidatesIndex = frameCollect(currentVpos, VPOS_FRAME_SIZE);
+  console.log("renderComments vpos:", currentVpos);
+  console.log("renderedCount:", config.renderedCommentsIndex.length);
+
+  // 描画していないコメントのみを対象にアニメーションを予約
+  commentCandidatesIndex.forEach(function(candidateIndex){
+    if (config.renderedCommentsIndex.indexOf(candidateIndex) > -1) return;
+    let comment = comments[candidateIndex];
+    let remaining = comment.vpos - currentVpos;
+    // setTimeout(function(){
+    //   console.log(comment.vpos, comment.body);
+    // }, remaining*10);
+    console.log("RENDER", remaining*10, comment.body);
+    config.renderedCommentsIndex.push(candidateIndex);
   });
-});
+}
+
+// Load comments
+var packet = require(`${video_path}.json`);
+
+// Sort comments by vpos
+config.comments = packet.comments
+  .sort(function(a, b) {
+    if (a.vpos < b.vpos) return -1;
+    if (a.vpos > b.vpos) return 1;
+    return 0;
+  });
+
+// Create vpos, array_index T index
+config.vposIndex = config.comments
+  .map(function(comment, index){
+    return [comment.vpos, index];
+  });
+
+console.log("comment loaded:", config.comments.length);
+
+// Load video
+player.src = video_path;
