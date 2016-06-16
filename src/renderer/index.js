@@ -32,20 +32,20 @@ player.addEventListener('loadedmetadata', function() {
   playback.min = playback.value = initialTime || 0;
   playback.max = duration;
 
-  console.log("video loaded:", duration);
+  console.log('video loaded:', duration);
 
   playButton.disabled = false;
   this.play();
 });
 
 player.addEventListener('play', function(e) {
-  console.log("play");
+  console.log('play');
   renderComments();
   config.commentRendererTimer = setInterval(renderComments, VPOS_FRAME_SIZE * 10 / 2);
 })
 
 player.addEventListener('seeked', function(e) {
-  console.log("seeked");
+  console.log('seeked');
   config.renderedCommentsIndex = [];
   renderComments();
 });
@@ -55,7 +55,7 @@ player.addEventListener('timeupdate', function(e) {
 });
 
 player.addEventListener('ended', function(e) {
-  console.log("ended");
+  console.log('ended');
   clearInterval(config.commentRendererTimer);
 });
 
@@ -85,27 +85,23 @@ volumeControl.addEventListener('input', function() {
 
 video_path = remote.process.argv[2];
 
-// Collect comments within frame range
-function frameCollect(start, frameSize) {
-  let end = start + frameSize;
-  return config
+// Render comments
+function renderComments(){
+  // Collect comments within frame range
+  const {comments} = config;
+  const currentVpos = player.currentTime * 100;
+  let endVpos = currentVpos + VPOS_FRAME_SIZE;
+  const commentCandidatesIndex = config
     .vposIndex
     .filter(index => {
-      return (index[0] >= start && index[0] <= end);
+      return (index[0] >= currentVpos && index[0] <= endVpos);
     })
     .map(index => {
       return index[1];
     });
-}
 
-// Render comments
-function renderComments(){
-  // インターバルごとにフレーム窓の対象となるコメントを算出
-  const {comments} = config;
-  const currentVpos = player.currentTime * 100;
-  const commentCandidatesIndex = frameCollect(currentVpos, VPOS_FRAME_SIZE);
-  console.log("renderComments vpos:", currentVpos);
-  console.log("renderedCount:", config.renderedCommentsIndex.length);
+  console.log('renderComments vpos:', currentVpos);
+  console.log('renderedCount:', config.renderedCommentsIndex.length);
 
   // 描画していないコメントのみを対象にアニメーションを予約
   commentCandidatesIndex.forEach(function(candidateIndex) {
@@ -113,7 +109,7 @@ function renderComments(){
     let comment = comments[candidateIndex];
     let remainingVpos = comment.vpos - currentVpos;
     // TODO: CSS Animation
-    console.log("RENDER", remainingVpos * 10, comment.body);
+    console.log('RENDER', remainingVpos * 10, comment.body);
     config.renderedCommentsIndex.push(candidateIndex);
   });
 }
@@ -137,7 +133,7 @@ config.vposIndex = config
     return [comment.vpos, index];
   });
 
-console.log("comment loaded:", config.comments.length);
+console.log('comment loaded:', config.comments.length);
 
 // Load video
 player.src = video_path;
