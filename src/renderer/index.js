@@ -111,11 +111,9 @@ function renderComments(){
   commentCandidatesIndex.forEach(function(candidateIndex) {
     if (config.renderedCommentsIndex.indexOf(candidateIndex) > -1) return;
     let comment = comments[candidateIndex];
-    let remaining = comment.vpos - currentVpos;
-    // setTimeout(function(){
-    //   console.log(comment.vpos, comment.body);
-    // }, remaining*10);
-    console.log("RENDER", remaining * 10, comment.body);
+    let remainingVpos = comment.vpos - currentVpos;
+    // TODO: CSS Animation
+    console.log("RENDER", remainingVpos * 10, comment.body);
     config.renderedCommentsIndex.push(candidateIndex);
   });
 }
@@ -132,7 +130,7 @@ config.comments = packet
     return 0;
   });
 
-// Create vpos, array_index T index
+// Create vpos, array_index inverted index
 config.vposIndex = config
   .comments
   .map((comment, index) => {
