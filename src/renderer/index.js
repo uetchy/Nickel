@@ -2,11 +2,13 @@ const {remote} = require('electron');
 const win = remote.getCurrentWindow();
 
 // DOM elements
-const player = document.getElementById('player');
-const playButton = document.getElementById('play');
-const playback = document.getElementById('playback');
-const volumeControl = document.getElementById('volume-bar');
-const commentsContainer = document.getElementById('comments');
+const playerElement = document.getElementById('player');
+const playButtonElement = document.getElementById('play');
+const playbackElement = document.getElementById('playback');
+const volumeControlElement = document.getElementById('volume-bar');
+const commentsContainerElement = document.getElementById('comments');
+const currentTimeIndicatorElement = document.getElementById('currentTime');
+const remainingTimeIndicatorElement = document.getElementById('remainingTime');
 
 // Comments frame size which will be rendered
 const VPOS_FRAME_SIZE = 1000;
@@ -21,7 +23,7 @@ var config = {
 };
 
 // Initialize video player as metadata was loaded
-player.addEventListener('loadedmetadata', function() {
+playerElement.addEventListener('loadedmetadata', function() {
   const {
     videoWidth,
     videoHeight,
@@ -33,69 +35,74 @@ player.addEventListener('loadedmetadata', function() {
   win.setSize(videoWidth, videoHeight);
   win.setAspectRatio(videoWidth / videoHeight);
 
-  // Put video length into playback control
-  playback.min = playback.value = initialTime || 0;
-  playback.max = duration;
+  // Put video length into playbackElement control
+  playbackElement.min = playbackElement.value = initialTime || 0;
+  playbackElement.max = duration;
 
   console.log('video loaded:', duration);
 
   // Play video
-  playButton.disabled = false;
+  playButtonElement.disabled = false;
   this.play();
 });
 
 // Render comments if player start playing
-player.addEventListener('play', function() {
+playerElement.addEventListener('play', function() {
   console.log('play');
   renderComments();
   config.commentRendererTimer = setInterval(renderComments, VPOS_FRAME_SIZE * 10 / 2);
 })
 
 // Reconstruct comments and render if player was seeked
-player.addEventListener('seeked', function() {
+playerElement.addEventListener('seeked', function() {
   console.log('seeked');
   config.renderedCommentsIndex = [];
   renderComments();
 });
 
 // Sync playback indicator with player's current time
-player.addEventListener('timeupdate', function() {
-  if (!config.isSeeking) playback.value = player.currentTime;
+playerElement.addEventListener('timeupdate', function() {
+  if (!config.isSeeking) {
+    playbackElement.value = playerElement.currentTime;
+    currentTimeIndicatorElement.innerHTML = Math.floor(playerElement.currentTime);
+    remainingTimeIndicatorElement.innerHTML = '-' + Math.floor(playerElement.duration - playerElement.currentTime);
+  }
+
 });
 
 // Stop rendering comments when the player reached end
-player.addEventListener('ended', function() {
+playerElement.addEventListener('ended', function() {
   console.log('ended');
   clearInterval(config.commentRendererTimer);
 });
 
 // Toggle play/pause
-playButton.addEventListener('click', function() {
-  if (player.paused) {
-    player.play();
+playButtonElement.addEventListener('click', function() {
+  if (playerElement.paused) {
+    playerElement.play();
   } else {
-    player.pause();
+    playerElement.pause();
   }
 });
 
 // Start seeking
-playback.addEventListener('mousedown', function() {
+playbackElement.addEventListener('mousedown', function() {
   config.isSeeking = true;
 });
 
 // Finish seeking
-playback.addEventListener('mouseup', function() {
+playbackElement.addEventListener('mouseup', function() {
   config.isSeeking = false;
 });
 
 // After seeked
-playback.addEventListener('change', function() {
-  player.currentTime = this.valueAsNumber;
+playbackElement.addEventListener('change', function() {
+  playerElement.currentTime = this.valueAsNumber;
 })
 
 // Change the player volume
-volumeControl.addEventListener('input', function() {
-  player.volume = this.valueAsNumber;
+volumeControlElement.addEventListener('input', function() {
+  playerElement.volume = this.valueAsNumber;
 });
 
 const video_path = remote.process.argv[2];
@@ -104,7 +111,7 @@ const video_path = remote.process.argv[2];
 function renderComments(){
   // Collect comments within frame range
   const {comments} = config;
-  const currentVpos = player.currentTime * 100;
+  const currentVpos = playerElement.currentTime * 100;
   const endVpos = currentVpos + VPOS_FRAME_SIZE;
   const commentCandidatesIndex = config
     .vposIndex
@@ -125,6 +132,7 @@ function renderComments(){
     const remainingVpos = comment.vpos - currentVpos;
     // TODO: CSS Animation
     console.log('RENDER', remainingVpos * 10, comment.body);
+    commentsContainerElement.innerHTML = comment.body;
     config.renderedCommentsIndex.push(candidateIndex);
   });
 }
@@ -151,4 +159,4 @@ config.vposIndex = config
 console.log('comment loaded:', config.comments.length);
 
 // Load a video file
-player.src = video_path;
+playerElement.src = video_path;
