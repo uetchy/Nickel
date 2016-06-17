@@ -1,16 +1,17 @@
 const {remote} = require('electron');
-const fs = require('fs');
-const path = require('path');
-const {parseString} = require('xml2js');
 const win = remote.getCurrentWindow();
+
+// DOM elements
 const player = document.getElementById('player');
 const playButton = document.getElementById('play');
 const playback = document.getElementById('playback');
 const volumeControl = document.getElementById('volume-bar');
 const commentsContainer = document.getElementById('comments');
 
+// Comments frame size which will be rendered
 const VPOS_FRAME_SIZE = 1000;
 
+// Global config
 var config = {
   isSeeking: false,
   commentRendererTimer: null,
@@ -19,6 +20,7 @@ var config = {
   vposIndex: []
 };
 
+// Initialize video player as metadata was loaded
 player.addEventListener('loadedmetadata', function() {
   const {
     videoWidth,
@@ -26,39 +28,48 @@ player.addEventListener('loadedmetadata', function() {
     duration,
     initialTime
   } = this;
+
+  // Set window size same as video size
   win.setSize(videoWidth, videoHeight);
   win.setAspectRatio(videoWidth / videoHeight);
 
+  // Put video length into playback control
   playback.min = playback.value = initialTime || 0;
   playback.max = duration;
 
   console.log('video loaded:', duration);
 
+  // Play video
   playButton.disabled = false;
   this.play();
 });
 
-player.addEventListener('play', function(e) {
+// Render comments if player start playing
+player.addEventListener('play', function() {
   console.log('play');
   renderComments();
   config.commentRendererTimer = setInterval(renderComments, VPOS_FRAME_SIZE * 10 / 2);
 })
 
-player.addEventListener('seeked', function(e) {
+// Reconstruct comments and render if player was seeked
+player.addEventListener('seeked', function() {
   console.log('seeked');
   config.renderedCommentsIndex = [];
   renderComments();
 });
 
-player.addEventListener('timeupdate', function(e) {
+// Sync playback indicator with player's current time
+player.addEventListener('timeupdate', function() {
   if (!config.isSeeking) playback.value = player.currentTime;
 });
 
-player.addEventListener('ended', function(e) {
+// Stop rendering comments when the player reached end
+player.addEventListener('ended', function() {
   console.log('ended');
   clearInterval(config.commentRendererTimer);
 });
 
+// Toggle play/pause
 playButton.addEventListener('click', function() {
   if (player.paused) {
     player.play();
@@ -67,30 +78,34 @@ playButton.addEventListener('click', function() {
   }
 });
 
+// Start seeking
 playback.addEventListener('mousedown', function() {
   config.isSeeking = true;
 });
 
-playback.addEventListener('mouseup', function(e) {
+// Finish seeking
+playback.addEventListener('mouseup', function() {
   config.isSeeking = false;
 });
 
+// After seeked
 playback.addEventListener('change', function() {
   player.currentTime = this.valueAsNumber;
 })
 
+// Change the player volume
 volumeControl.addEventListener('input', function() {
   player.volume = this.valueAsNumber;
 });
 
-video_path = remote.process.argv[2];
+const video_path = remote.process.argv[2];
 
 // Render comments
 function renderComments(){
   // Collect comments within frame range
   const {comments} = config;
   const currentVpos = player.currentTime * 100;
-  let endVpos = currentVpos + VPOS_FRAME_SIZE;
+  const endVpos = currentVpos + VPOS_FRAME_SIZE;
   const commentCandidatesIndex = config
     .vposIndex
     .filter(index => {
@@ -106,8 +121,8 @@ function renderComments(){
   // 描画していないコメントのみを対象にアニメーションを予約
   commentCandidatesIndex.forEach(function(candidateIndex) {
     if (config.renderedCommentsIndex.indexOf(candidateIndex) > -1) return;
-    let comment = comments[candidateIndex];
-    let remainingVpos = comment.vpos - currentVpos;
+    const comment = comments[candidateIndex];
+    const remainingVpos = comment.vpos - currentVpos;
     // TODO: CSS Animation
     console.log('RENDER', remainingVpos * 10, comment.body);
     config.renderedCommentsIndex.push(candidateIndex);
@@ -115,7 +130,7 @@ function renderComments(){
 }
 
 // Load comments
-var packet = require(`${video_path}.json`);
+const packet = require(`${video_path}.json`);
 
 // Sort comments by vpos
 config.comments = packet
@@ -135,5 +150,5 @@ config.vposIndex = config
 
 console.log('comment loaded:', config.comments.length);
 
-// Load video
+// Load a video file
 player.src = video_path;

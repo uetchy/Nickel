@@ -3,14 +3,13 @@
   "version": "1.0.0",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron . '/Users/oame/Repos/src/github.com/uetchy/Nickel/ゆっくりできないパラノイア04　■おまけ [sm23418443].mp4'",
+    "start": "electron . \"$NICKEL_TEST_FILE\"",
     "release": "electron-packager . $npm_package_name --platform=darwin --arch=x64 --icon=app.icns"
   },
   "dependencies": {
-    "xml2js": "^0.4.16"
   },
   "devDependencies": {
-    "electron-packager": "^7.0.3",
-    "electron-prebuilt": "^1.2.0"
+    "electron-packager": "^7.0.4",
+    "electron-prebuilt": "^1.2.3"
   }
 }
