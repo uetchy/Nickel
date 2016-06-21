@@ -1,36 +1,16 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
   <link href="index.css" rel="stylesheet" />
   <title>Nickel</title>
 </head>
-
 <body>
-  <video id="player"></video>
-  <div id="comments"></div>
-  </div>
-  <div class="overlay-view hover">
-    <div id="titlebar"></div>
-    <div id="controls">
-      <div class="controls--upper">
-        <i class="fa fa-volume-down"></i>
-        <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
-        <i class="fa fa-volume-up"></i>
-        <button id="play" disabled><i class="fa fa-play"></i></button>
-      </div>
-      <div class="controls--bottom">
-        <span id="currentTime">00:00</span>
-        <input type="range" id="playback" value="0">
-        <span id="remainingTime">-00:00</span>
-      </div>
-    </div>
-  </div>
+  <div id="root"></div>
   <script>
-    require('./renderer/index.js')
+    require('babel-register')
+    require('./renderer')
   </script>
 </body>
-
 </html>

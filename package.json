@@ -7,9 +7,22 @@
     "release": "electron-packager . $npm_package_name --platform=darwin --arch=x64 --icon=app.icns"
   },
   "dependencies": {
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
   },
   "devDependencies": {
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.9.0",
     "electron-packager": "^7.0.4",
     "electron-prebuilt": "^1.2.3"
+  },
+  "babel": {
+    "sourceMaps": "inline",
+    "presets": [
+      "es2015",
+      "react",
+      "stage-0"
+    ]
   }
 }
