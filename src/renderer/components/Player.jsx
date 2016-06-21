@@ -45,7 +45,7 @@ export default class Player extends Component {
   // Render comments if player start playing
   // onPlay = () => {
     // TODO: renderComments()
-    // config.commentRendererTimer = setInterval(renderComments, VPOS_FRAME_SIZE * 10 / 2)
+// config.commentRendererTimer = setInterval(renderComments, VPOS_FRAME_SIZE * 10 / 2)
   // }
 
   // Reconstruct comments and render if player was seeked

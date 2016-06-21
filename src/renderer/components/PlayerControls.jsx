@@ -12,7 +12,7 @@ export default class PlayerControls extends Component {
     setVolume: PropTypes.func.isRequired
   }
 
-  constructor(props){
+  constructor(props) {
     super(props)
   }
 
