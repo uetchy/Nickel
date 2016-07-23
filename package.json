@@ -1,28 +1,42 @@
 {
   "name": "Nickel",
   "version": "1.0.0",
-  "main": "src/main.js",
+  "main": ".",
   "scripts": {
+    "test": "xo",
     "start": "electron . \"$NICKEL_TEST_FILE\"",
-    "release": "electron-packager . $npm_package_name --platform=darwin --arch=x64 --icon=app.icns"
+    "build": "electron-packager . $npm_package_name --platform=darwin --arch=x64 --icon=app.icns",
+    "release": "npm-run-all test build"
   },
   "dependencies": {
-    "react": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "react": "^15.2.1",
+    "react-dom": "^15.2.1"
   },
   "devDependencies": {
-    "babel-preset-react": "^6.5.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.11.1",
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.9.0",
-    "electron-packager": "^7.0.4",
-    "electron-prebuilt": "^1.2.3"
+    "electron-packager": "^7.3.0",
+    "electron-prebuilt": "^1.2.8",
+    "eslint-config-xo-react": "^0.8.0",
+    "eslint-plugin-react": "^5.2.2",
+    "npm-run-all": "^2.3.0",
+    "xo": "^0.16.0"
   },
   "babel": {
-    "sourceMaps": "inline",
     "presets": [
       "es2015",
       "react",
       "stage-0"
     ]
+  },
+  "xo": {
+    "esnext": true,
+    "envs": [
+      "node",
+      "browser"
+    ],
+    "extends": "xo-react"
   }
 }
