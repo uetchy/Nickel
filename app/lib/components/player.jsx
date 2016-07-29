@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react'
 
-import PlayerControls from './player-controls';
-import CommentList from './comment-list';
+import PlayerControls from './player-controls'
+import CommentList from './comment-list'
 
 export default class Player extends Component {
 	static propTypes = {
@@ -10,37 +10,37 @@ export default class Player extends Component {
 	}
 
 	constructor(props) {
-		super(props);
+		super(props)
 		this.state = {
 			initialTime: 0,
 			duration: 0,
 			currentTime: 0,
 			play: false,
 			volume: 1.0
-		};
+		}
 	}
 
 	// Initialize video player as metadata was loaded
 	handleOnLoadedMetadata = event => {
-		const {videoWidth, videoHeight, duration, initialTime} = event.target;
-		console.log('metadata loaded:', event.target.duration);
+		const {videoWidth, videoHeight, duration, initialTime} = event.target
+		console.log('metadata loaded:', event.target.duration)
 
 		// Set window size same as video size
 		this.props.setWindowSize({
 			width: videoWidth,
 			height: videoHeight,
 			ratio: videoWidth / videoHeight
-		});
+		})
 
 		this.setState({
 			width: videoWidth,
 			height: videoHeight,
 			initialTime: initialTime || 0,
 			duration
-		});
+		})
 
 		// Play video
-		this.togglePlay();
+		this.togglePlay()
 	}
 
 	// Render comments if player start playing
@@ -51,7 +51,7 @@ export default class Player extends Component {
 
 	// Reconstruct comments and render if player was seeked
 	handleOnSeeked = () => {
-		console.log('onSeeked');
+		console.log('onSeeked')
 		// TODO: config.renderedCommentsIndex = []
 		// renderComments()
 	}
@@ -60,49 +60,45 @@ export default class Player extends Component {
 	handleOnTimeUpdate = event => {
 		this.setState({
 			currentTime: event.target.currentTime
-		});
+		})
 	}
 
 	// Stop rendering comments when the player reached end
 	handleOnEnded = () => {
-		console.log('onEnded');
-		this.setState({play: false});
+		console.log('onEnded')
+		this.setState({play: false})
 		// TODO: clearInterval(config.commentRendererTimer)
 	}
 
-	componentDidMount() {
-		// Start loading video
-		this._player.src = this.props.videoPath;
-	}
-
 	togglePlay = () => {
-		if (this._player.paused) {
-			this._player.play();
-			this.setState({play: true});
+		if (this.player.paused) {
+			this.player.play()
+			this.setState({play: true})
 		} else {
-			this._player.pause();
-			this.setState({play: false});
+			this.player.pause()
+			this.setState({play: false})
 		}
 	}
 
 	setTime = time => {
-		this._player.currentTime = time;
+		this.player.currentTime = time
 	}
 
 	setVolume = volume => {
-		console.log(volume);
-		this.setState({volume});
-		this._player.volume = volume;
+		console.log(volume)
+		this.setState({volume})
+		this.player.volume = volume
 	}
 
 	_player = component => {
-		this.player = component;
+		this.player = component
 	}
 
 	render() {
 		return (
 			<div className="player">
 				<video
+					src={this.props.videoPath}
 					className="player-media"
 					ref={this._player}
 					volume={this.state.volume}
@@ -127,6 +123,6 @@ export default class Player extends Component {
 					setVolume={this.setVolume}
 					/>
 			</div>
-		);
+		)
 	}
 }

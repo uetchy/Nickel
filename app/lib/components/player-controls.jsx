@@ -1,4 +1,4 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react'
 
 export default class PlayerControls extends Component {
 	static propTypes = {
@@ -14,31 +14,31 @@ export default class PlayerControls extends Component {
 
 	// Toggle play/pause
 	handleOnClickPlayButton = () => {
-		this.props.togglePlay();
+		this.props.togglePlay()
 	}
 
 	// Start seeking
 	handleOnStartSeeking = () => {
-		this.setState({isSeeking: true});
+		this.setState({isSeeking: true})
 	}
 
 	// Finish seeking
 	handleOnEndSeeking = () => {
-		this.setState({isSeeking: false});
+		this.setState({isSeeking: false})
 	}
 
 	// After seeked
 	handleOnChangeTime = event => {
-		this.props.setTime(event.target.valueAsNumber);
+		this.props.setTime(event.target.valueAsNumber)
 	}
 
 	// Change player volume
 	handleOnChangeVolume = event => {
-		this.props.setVolume(event.target.valueAsNumber);
+		this.props.setVolume(event.target.valueAsNumber)
 	}
 
 	render() {
-		const {duration, initialTime, currentTime, volume} = this.props;
+		const {duration, initialTime, currentTime, volume} = this.props
 		return (
 			<div className="playerControls">
 				<div id="titlebar"></div>
@@ -78,6 +78,6 @@ export default class PlayerControls extends Component {
 					</div>
 				</div>
 			</div>
-		);
+		)
 	}
 }
