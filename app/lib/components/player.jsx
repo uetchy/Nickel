@@ -101,7 +101,6 @@ export default class Player extends Component {
 					src={this.props.videoPath}
 					className="player-media"
 					ref={this._player}
-					volume={this.state.volume}
 					onLoadedMetadata={this.handleOnLoadedMetadata}
 					onSeeked={this.handleOnSeeked}
 					onTimeUpdate={this.handleOnTimeUpdate}

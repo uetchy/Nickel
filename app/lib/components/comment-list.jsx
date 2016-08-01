@@ -75,21 +75,28 @@ export default class CommentList extends Component {
 		const {comments, commentsData, renderedCommentsIndex} = this.state
 		const currentVpos = currentTime * 100
 
-		this.getCommentCandidatesIndex().forEach(candidateIndex => {
-			if (renderedCommentsIndex.indexOf(candidateIndex) > -1) {
-				return
-			}
-			const comment = commentsData[candidateIndex]
-			const remainingVpos = comment.vpos - currentVpos
+		this.getCommentCandidatesIndex()
+			.filter(index => {
+				return !renderedCommentsIndex.includes(index)
+			})
+			.map(index => {
+				renderedCommentsIndex.push(index)
+				return commentsData[index]
+			})
+			.forEach(comment => {
+				const remainingVpos = comment.vpos - currentVpos
+				// console.log('RENDER', remainingVpos * 10, comment)
 
-			console.log('RENDER', remainingVpos * 10, comment)
-			const component = <Comment key={comment.no} text={comment.body} remainingVpos={remainingVpos}/>
-			comments.push(component)
-
-			renderedCommentsIndex.push(candidateIndex)
-		})
-
-		this.setState({comments})
+				setTimeout(() => {
+					const component = (<Comment
+						key={comment.no}
+						text={comment.body}
+						remainingVpos={remainingVpos}
+						/>)
+					comments.push(component)
+					this.setState({comments})
+				}, remainingVpos * 10)
+			})
 	}
 
 	render() {
