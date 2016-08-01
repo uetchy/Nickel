@@ -1,6 +1,6 @@
 # Nickel
 
-QuickTime flavored nicovideo player built on Electron.
+QuickTime flavored nicovideo player built on Electron + React.
 
 ## Roadmap
 
@@ -19,7 +19,7 @@ $ npm install
 $ npm start
 ```
 
-## Release
+## Package
 
 ```
 $ npm run release
