@@ -1,4 +1,4 @@
-# Nickel
+![](http://randompaper.co.s3.amazonaws.com/Nickel/logotype.png)
 
 QuickTime flavored nicovideo player built on Electron + React.
 
