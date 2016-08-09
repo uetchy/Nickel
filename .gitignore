@@ -3,3 +3,4 @@
 /samples
 *.mp4
 *.mp4.json
+.nyc_output

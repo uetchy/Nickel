@@ -41,10 +41,10 @@ export default class PlayerControls extends Component {
 		const {duration, initialTime, currentTime, volume} = this.props
 		return (
 			<div className="playerControls">
-				<div id="titlebar"></div>
+				<div id="titlebar"/>
 				<div id="controls">
 					<div className="controls--upper">
-						<i className="fa fa-volume-down"></i>
+						<i className="fa fa-volume-down"/>
 						<input
 							type="range"
 							id="volume-bar"
@@ -54,12 +54,12 @@ export default class PlayerControls extends Component {
 							value={volume}
 							onChange={this.handleOnChangeVolume}
 							/>
-						<i className="fa fa-volume-up"></i>
+						<i className="fa fa-volume-up"/>
 						<button
 							id="play"
 							onClick={this.handleOnClickPlayButton}
 							>
-							<i className="fa fa-play"></i>
+							<i className="fa fa-play"/>
 						</button>
 					</div>
 					<div className="controls--bottom">
