@@ -4,7 +4,7 @@
   "main": ".",
   "scripts": {
     "test": "xo && nyc ava",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc report --reporter=text-lcov",
     "start": "electron . \"$NICKEL_TEST_FILE\"",
     "build": "electron-packager . $npm_package_name --platform=darwin --arch=x64 --icon=app.icns",
     "release": "run-s test build"
@@ -32,8 +32,8 @@
   "babel": {
     "presets": [
       "es2015",
-      "react",
-      "stage-0"
+      "stage-0",
+      "react"
     ]
   },
   "xo": {
