@@ -5,7 +5,8 @@ import Comment from './comment'
 export default class CommentList extends Component {
 	static propTypes = {
 		currentTime: PropTypes.number,
-		videoPath: PropTypes.string
+		videoPath: PropTypes.string,
+		getWindowSize: PropTypes.func
 	}
 
 	constructor(props) {

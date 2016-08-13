@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": ".",
   "scripts": {
-    "test": "xo && nyc ava",
+    "test": "nyc ava && xo",
     "coverage": "nyc report --reporter=text-lcov",
     "start": "electron . \"$NICKEL_TEST_FILE\"",
     "build": "electron-packager . $npm_package_name --platform=darwin --arch=x64 --icon=app.icns",

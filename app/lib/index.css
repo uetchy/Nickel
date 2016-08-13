@@ -9,7 +9,7 @@ body {
 
 .hover {
   transition: opacity .3s ease-out;
-  opacity: 1; /* TODO: DEBUG */
+  opacity: 1;
 }
 
 body:hover > .hover {
@@ -150,4 +150,6 @@ body:hover > .hover {
   font-weight: bold;
   position: absolute;
   color: #fff;
+  width: 100%;
+  height: 100%;
 }

@@ -6,7 +6,8 @@ import CommentList from './comment-list'
 export default class Player extends Component {
 	static propTypes = {
 		setWindowSize: PropTypes.func.isRequired,
-		videoPath: PropTypes.string
+		getWindowSize: PropTypes.func.isRequired,
+		videoPath: PropTypes.string.isRequired
 	}
 
 	constructor(props) {
@@ -108,6 +109,7 @@ export default class Player extends Component {
 					/>
 				<CommentList
 					videoPath={this.props.videoPath}
+					getWindowSize={this.props.getWindowSize}
 					currentTime={this.state.currentTime}
 					/>
 				<PlayerControls

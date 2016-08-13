@@ -18,12 +18,17 @@ export default class Root extends Component {
 		this.win.setAspectRatio(args.width / args.height)
 	}
 
+	getWindowSize = () => {
+		return this.win.getSize()
+	}
+
 	render() {
 		return (
 			<div className="root">
 				<Player
 					videoPath={this.props.videoPath}
 					setWindowSize={this.setWindowSize}
+					getWindowSize={this.getWindowSize}
 					/>
 			</div>
 		)
