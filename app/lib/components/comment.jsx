@@ -3,36 +3,36 @@ import React, {PropTypes, Component} from 'react'
 export default class Comment extends Component {
 	static propTypes = {
 		text: PropTypes.string.isRequired,
-		remainingVpos: PropTypes.number.isRequired
-	}
-
-	constructor(props) {
-		super(props)
-		this.state = {
-			visible: true
-		}
+		startPosition: PropTypes.number.isRequired,
+		currentPosition: PropTypes.number.isRequired,
+		marginLeft: PropTypes.number,
+		top: PropTypes.number
 	}
 
 	componentDidMount() {
-		setTimeout(() => {
-			console.log('destroy')
-			this.setState({visible: false})
-		}, 5000)
+		setInterval(this.updatePosition, 1000)
+	}
+
+	updatePosition() {
+
 	}
 
 	render() {
 		const {text} = this.props
-		return this.state.visible ? (
+		const style = {
+			fontSize: '5px',
+			position: 'absolute',
+			width: text.length + 1 + 'em',
+			marginLeft: this.props.marginLeft,
+			top: this.props.top
+		}
+		return (
 			<div
 				className="comment"
-				style={{
-					top: 0,
-					transform: 'translateX(0)',
-					right: '100%'
-				}}
+				style={style}
 				>
 				{text}
 			</div>
-		) : null
+		)
 	}
 }

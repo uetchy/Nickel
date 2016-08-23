@@ -40,7 +40,7 @@ export default class PlayerControls extends Component {
 	render() {
 		const {duration, initialTime, currentTime, volume} = this.props
 		return (
-			<div className="playerControls">
+			<div className="playerControls hover">
 				<div id="titlebar"/>
 				<div id="controls">
 					<div className="controls--upper">

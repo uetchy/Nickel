@@ -12,11 +12,8 @@ export default class CommentList extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			commentRendererTimer: null,
-			renderedCommentsIndex: [],
 			commentsData: [],
-			commentVposIndex: [],
-			comments: []
+			commentsPositionIndex: []
 		}
 
 		// Comments frame size which will be rendered
@@ -25,10 +22,6 @@ export default class CommentList extends Component {
 
 	componentDidMount() {
 		this.loadCommentData()
-		this.queueCommentsToRender()
-		this.setState({
-			commentRendererTimer: setInterval(this.queueCommentsToRender, this.VPOS_FRAME_SIZE * 10 / 2)
-		})
 	}
 
 	loadCommentData() {
@@ -46,64 +39,60 @@ export default class CommentList extends Component {
 		})
 
 		// Create vpos, array_index inverted index
-		const commentVposIndex = commentsData.map((comment, index) => {
+		const commentsPositionIndex = commentsData.map((comment, index) => {
 			return [comment.vpos, index]
 		})
 
-		this.setState({commentsData, commentVposIndex})
+		this.setState({commentsData, commentsPositionIndex})
 		console.log('comments loaded:', commentsData.length)
 	}
 
 	getCommentCandidatesIndex = () => {
 		const {currentTime} = this.props
-		const {commentVposIndex} = this.state
+		const {commentsPositionIndex} = this.state
 
-		const currentVpos = currentTime * 100
-		const endVpos = currentVpos + this.VPOS_FRAME_SIZE
-		const commentCandidatesIndex = commentVposIndex.filter(index => {
-			return (index[0] >= currentVpos && index[0] <= endVpos)
-		}).map(index => {
-			return index[1]
-		})
+		const currentPosition = currentTime * 100
+		const minPosition = currentPosition - this.VPOS_FRAME_SIZE
+		const maxPosition = currentPosition + this.VPOS_FRAME_SIZE
+		console.log(minPosition, maxPosition)
+		const candidatesIndex = commentsPositionIndex
+			.filter(index => (index[0] >= minPosition && index[0] <= maxPosition))
+			.map(index => index[1])
 
-		console.log('candidates:', commentCandidatesIndex)
-		return commentCandidatesIndex
+		return candidatesIndex
 	}
 
-	// 描画していないコメントのみを対象にアニメーションを予約
-	queueCommentsToRender = () => {
+	// コメントを生成
+	getCommentsToRender = () => {
 		const {currentTime} = this.props
-		const {comments, commentsData, renderedCommentsIndex} = this.state
-		const currentVpos = currentTime * 100
+		const {commentsData} = this.state
+		const currentPosition = currentTime * 100
+		const w = this.props.getWindowSize()[0]
 
-		this.getCommentCandidatesIndex()
-			.filter(index => {
-				return !renderedCommentsIndex.includes(index)
-			})
-			.map(index => {
-				renderedCommentsIndex.push(index)
-				return commentsData[index]
-			})
-			.forEach(comment => {
-				const remainingVpos = comment.vpos - currentVpos
-				// console.log('RENDER', remainingVpos * 10, comment)
-
-				setTimeout(() => {
-					const component = (<Comment
+		return this.getCommentCandidatesIndex()
+			.map(index => commentsData[index])
+			.map(comment => {
+				const marginLeft = w - ((currentPosition - comment.vpos) * 1.0)
+				return (
+					<Comment
 						key={comment.no}
 						text={comment.body}
-						remainingVpos={remainingVpos}
-						/>)
-					comments.push(component)
-					this.setState({comments})
-				}, remainingVpos * 10)
+						startPosition={comment.vpos}
+						currentPosition={currentPosition}
+						top={comment.no}
+						marginLeft={marginLeft}
+						/>
+				)
 			})
 	}
 
 	render() {
+		const comments = this.getCommentsToRender()
+		// console.log(comments.map(c => c.key))
+
 		return (
 			<div className="commentList">
-				{this.state.comments}
+				{comments}
 			</div>
 		)
 	}
