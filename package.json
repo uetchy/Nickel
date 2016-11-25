@@ -1,6 +1,7 @@
 {
   "name": "Nickel",
   "version": "1.0.0",
+  "license": "MIT",
   "main": ".",
   "scripts": {
     "test": "nyc ava && xo",
