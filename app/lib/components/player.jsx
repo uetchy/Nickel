@@ -108,7 +108,7 @@ export default class Player extends Component {
           onEnded={this.handleOnEnded}
         />
         <CommentList
-          videoPath={this.props.videoPath}
+          commentsPath={`${this.props.videoPath}.json`}
           getWindowSize={this.props.getWindowSize}
           currentTime={this.state.currentTime}
         />

@@ -4,9 +4,9 @@ import Comment from './comment'
 
 export default class CommentList extends Component {
   static propTypes = {
-    currentTime: PropTypes.number,
-    videoPath: PropTypes.string,
-    getWindowSize: PropTypes.func
+    currentTime: PropTypes.number.isRequired,
+    commentsPath: PropTypes.string.isRequired,
+    getWindowSize: PropTypes.func.isRequired
   }
 
   constructor(props) {
@@ -20,13 +20,9 @@ export default class CommentList extends Component {
     this.VPOS_FRAME_SIZE = 1000
   }
 
-  componentDidMount() {
-    this.loadCommentData()
-  }
-
   loadCommentData() {
     // Load comments
-    const packet = require(`${this.props.videoPath}.json`)
+    const packet = require(this.props.commentsPath)
 
     // Sort comments by vpos
     const commentsData = packet.comments.sort((a, b) => {
@@ -84,6 +80,10 @@ export default class CommentList extends Component {
           />
         )
       })
+  }
+
+  componentDidMount() {
+    this.loadCommentData()
   }
 
   render() {
