@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
-export default class PlayerControls extends Component {
+export default class PlayerControls extends React.Component {
   static propTypes = {
     play: PropTypes.bool.isRequired,
     currentTime: PropTypes.number.isRequired,

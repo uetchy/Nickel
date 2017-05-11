@@ -1,8 +1,14 @@
-import React, { Component, PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
+import ReactCanvas from 'react-canvas'
 
 import Comment from './comment'
 
-export default class CommentList extends Component {
+const Surface = ReactCanvas.Surface
+const Image = ReactCanvas.Image
+const Text = ReactCanvas.Text
+
+export default class CommentList extends React.Component {
   static propTypes = {
     currentTime: PropTypes.number.isRequired,
     commentsPath: PropTypes.string.isRequired,
@@ -70,14 +76,9 @@ export default class CommentList extends Component {
       .map(comment => {
         const marginLeft = w - (currentPosition - comment.vpos) * 1.0
         return (
-          <Comment
-            key={comment.no}
-            text={comment.body}
-            startPosition={comment.vpos}
-            currentPosition={currentPosition}
-            top={comment.no}
-            marginLeft={marginLeft}
-          />
+          <Text>
+            Here is some text below an image.
+          </Text>
         )
       })
   }
@@ -89,11 +90,18 @@ export default class CommentList extends Component {
   render() {
     const comments = this.getCommentsToRender()
     // console.log(comments.map(c => c.key))
+    const bounds = this.props.getWindowSize()
 
     return (
-      <div className="commentList">
+      <Surface
+        width={bounds[0]}
+        height={bounds[1]}
+        left={0}
+        top={0}
+        className="commentList"
+      >
         {comments}
-      </div>
+      </Surface>
     )
   }
 }

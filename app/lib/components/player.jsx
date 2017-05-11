@@ -1,9 +1,10 @@
-import React, { Component, PropTypes } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 import PlayerControls from './player-controls'
 import CommentList from './comment-list'
 
-export default class Player extends Component {
+export default class Player extends React.Component {
   static propTypes = {
     setWindowSize: PropTypes.func.isRequired,
     getWindowSize: PropTypes.func.isRequired,

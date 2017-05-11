@@ -1,6 +1,7 @@
-import React, { PropTypes, Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
-export default class Comment extends Component {
+export default class Comment extends React.Component {
   static propTypes = {
     text: PropTypes.string.isRequired,
     startPosition: PropTypes.number.isRequired,

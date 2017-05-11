@@ -1,9 +1,10 @@
-import React, { Component, PropTypes } from 'react'
-import { remote } from 'electron' // eslint-disable-line import/no-extraneous-dependencies
+import React from 'react'
+import PropTypes from 'prop-types'
+import { remote } from 'electron'
 
 import Player from './player'
 
-export default class Root extends Component {
+export default class Root extends React.Component {
   static propTypes = {
     videoPath: PropTypes.string.isRequired
   }
