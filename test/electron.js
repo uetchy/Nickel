@@ -4,7 +4,7 @@ import { Application } from 'spectron'
 test.beforeEach(t => {
   t.context.app = new Application({
     path: '../node_modules/electron-prebuilt/dist/Electron.app/Contents/MacOS/Electron',
-    args: ['..']
+    args: ['..'],
   })
   return t.context.app.start()
 })

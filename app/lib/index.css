@@ -8,7 +8,7 @@ body {
 }
 
 .hover {
-  transition: opacity .3s ease-out;
+  transition: opacity 0.3s ease-out;
   opacity: 1;
 }
 
@@ -97,16 +97,16 @@ body:hover > .hover {
   width: 100%;
 }
 
-#controls input[type=range] {
+#controls input[type='range'] {
   background: transparent; /* Otherwise white in Chrome */
   -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
 }
 
-#controls input[type=range]:focus {
+#controls input[type='range']:focus {
   outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
 }
 
-#controls input[type=range]::-ms-track {
+#controls input[type='range']::-ms-track {
   width: 100%;
   color: transparent;
   border-color: transparent;
@@ -114,11 +114,11 @@ body:hover > .hover {
   background: transparent;
 }
 
-#controls input[type=range]::-webkit-slider-thumb {
+#controls input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
 }
 
-#controls input[type=range]#volume-bar::-webkit-slider-thumb {
+#controls input[type='range']#volume-bar::-webkit-slider-thumb {
   width: 12px;
   height: 12px;
   margin-top: -5px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
@@ -126,7 +126,7 @@ body:hover > .hover {
   background: #b5b5b5;
 }
 
-#controls input[type=range]#playback::-webkit-slider-thumb {
+#controls input[type='range']#playback::-webkit-slider-thumb {
   width: 3px;
   height: 16px;
   margin-top: -7px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
@@ -134,13 +134,13 @@ body:hover > .hover {
   background: #b5b5b5;
 }
 
-#controls input[type=range]::-webkit-slider-runnable-track {
+#controls input[type='range']::-webkit-slider-runnable-track {
   width: 100%;
   height: 3px;
   background: #474747;
 }
 
-#controls input[type=range]:focus::-webkit-slider-runnable-track {
+#controls input[type='range']:focus::-webkit-slider-runnable-track {
   background: #474747;
 }
 

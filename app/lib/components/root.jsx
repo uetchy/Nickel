@@ -6,7 +6,7 @@ import Player from './player'
 
 export default class Root extends React.Component {
   static propTypes = {
-    videoPath: PropTypes.string.isRequired
+    videoPath: PropTypes.string.isRequired,
   }
 
   constructor(props) {

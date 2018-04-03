@@ -10,7 +10,7 @@ export default class PlayerControls extends React.Component {
     volume: PropTypes.number.isRequired,
     togglePlay: PropTypes.func.isRequired,
     setTime: PropTypes.func.isRequired,
-    setVolume: PropTypes.func.isRequired
+    setVolume: PropTypes.func.isRequired,
   }
 
   // Toggle play/pause
@@ -72,9 +72,7 @@ export default class PlayerControls extends React.Component {
               onMouseDown={this.handleOnStartSeeking}
               onMouseUp={this.handleOnEndSeeking}
             />
-            <span id="remainingTime">
-              -{Math.floor(duration - currentTime)}
-            </span>
+            <span id="remainingTime">-{Math.floor(duration - currentTime)}</span>
           </div>
         </div>
       </div>

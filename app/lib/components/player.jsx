@@ -8,7 +8,7 @@ export default class Player extends React.Component {
   static propTypes = {
     setWindowSize: PropTypes.func.isRequired,
     getWindowSize: PropTypes.func.isRequired,
-    videoPath: PropTypes.string.isRequired
+    videoPath: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -18,7 +18,7 @@ export default class Player extends React.Component {
       duration: 0,
       currentTime: 0,
       play: false,
-      volume: 1.0
+      volume: 1.0,
     }
   }
 
@@ -31,14 +31,14 @@ export default class Player extends React.Component {
     this.props.setWindowSize({
       width: videoWidth,
       height: videoHeight,
-      ratio: videoWidth / videoHeight
+      ratio: videoWidth / videoHeight,
     })
 
     this.setState({
       width: videoWidth,
       height: videoHeight,
       initialTime: initialTime || 0,
-      duration
+      duration,
     })
 
     // Play video
@@ -61,7 +61,7 @@ export default class Player extends React.Component {
   // Sync playback indicator with player's current time
   handleOnTimeUpdate = event => {
     this.setState({
-      currentTime: event.target.currentTime
+      currentTime: event.target.currentTime,
     })
   }
 

@@ -12,14 +12,14 @@ export default class CommentList extends React.Component {
   static propTypes = {
     currentTime: PropTypes.number.isRequired,
     commentsPath: PropTypes.string.isRequired,
-    getWindowSize: PropTypes.func.isRequired
+    getWindowSize: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.state = {
       commentsData: [],
-      commentsPositionIndex: []
+      commentsPositionIndex: [],
     }
 
     // Comments frame size which will be rendered
@@ -75,11 +75,7 @@ export default class CommentList extends React.Component {
       .map(index => commentsData[index])
       .map(comment => {
         const marginLeft = w - (currentPosition - comment.vpos) * 1.0
-        return (
-          <Text>
-            Here is some text below an image.
-          </Text>
-        )
+        return <Text>Here is some text below an image.</Text>
       })
   }
 
@@ -93,13 +89,7 @@ export default class CommentList extends React.Component {
     const bounds = this.props.getWindowSize()
 
     return (
-      <Surface
-        width={bounds[0]}
-        height={bounds[1]}
-        left={0}
-        top={0}
-        className="commentList"
-      >
+      <Surface width={bounds[0]} height={bounds[1]} left={0} top={0} className="commentList">
         {comments}
       </Surface>
     )

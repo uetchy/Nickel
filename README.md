@@ -6,9 +6,9 @@ QuickTime flavored nicovideo player built on Electron + React.
 
 ## Roadmap
 
-- [x] Video player
-- [x] Basic comments viewer
-- [ ] Advanced comments viewer
+* [x] Video player
+* [x] Basic comments viewer
+* [ ] Advanced comments viewer
 
 ## Download videos with comments
 

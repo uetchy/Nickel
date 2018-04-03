@@ -7,7 +7,7 @@ export default class Comment extends React.Component {
     startPosition: PropTypes.number.isRequired,
     currentPosition: PropTypes.number.isRequired,
     marginLeft: PropTypes.number,
-    top: PropTypes.number
+    top: PropTypes.number,
   }
 
   componentDidMount() {
@@ -23,7 +23,7 @@ export default class Comment extends React.Component {
       position: 'absolute',
       width: text.length + 1 + 'em',
       marginLeft: this.props.marginLeft,
-      top: this.props.top
+      top: this.props.top,
     }
     return (
       <div className="comment" style={style}>
