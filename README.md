@@ -1,4 +1,4 @@
-![](http://randompaper.co.s3.amazonaws.com/Nickel/logotype.png)
+![](http://uechi.s3.amazonaws.com/github/Nickel.png)
 
 [![Build Status](https://travis-ci.org/uetchy/Nickel.svg?branch=master)](https://travis-ci.org/uetchy/Nickel) [![Coverage Status](https://coveralls.io/repos/github/uetchy/Nickel/badge.svg?branch=master)](https://coveralls.io/github/uetchy/Nickel?branch=master)
 
